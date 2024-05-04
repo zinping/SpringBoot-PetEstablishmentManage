@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mascotmercio</title>
+    <link rel="stylesheet" href="/AñadirEstablecimiento.css" />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link href="/bootstrap.min.css" rel="stylesheet" />
+    <link href="/toastr.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="navbar-top">
+      <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo" />
+    </div>
+
+    <div class="sidebar">
+      <button id="botonInicio" class="sidebar-btn">Inicio</button>
+      <button id="botonPerfil" class="sidebar-btn">Mi perfil</button>
+      <button id="botonMis" class="sidebar-btn">Mis establecimientos</button>
+      <button id="cerrarBoton" class="sidebar-btn">Cerrar sesión</button>
+    </div>
+
+    <div class="main-content row">
+      <div class="col col-md-6">
+        <div class="header-box">
+          <h1>EDITAR ESTABLECIMIENTO</h1>
+        </div>
+        <div class="form-box">
+          <form
+            id="editestablishment"
+            action="/ruta-para-procesar-formulario"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <div class="form-group">
+              <label for="name">Nombre del establecimiento:</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="description">Descripción del establecimiento:</label>
+              <textarea id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="open">Horario apertura:</label>
+              <input type="time" id="open" name="open" required />
+            </div>
+            <div class="form-group">
+              <label for="close">Horario cierre:</label>
+              <input type="time" id="close" name="close" required />
+            </div>
+            <div class="form-group">
+              <label for="image">Imagen:</label>
+
+              <!-- Image tag to display the selected image -->
+              <img id="avatar-preview" src="#" alt="Avatar Preview" />
+            </div>
+            <button type="submit" class="btn btn-outline-success">
+              EDITAR ESTABLECIMIENTO
+            </button>
+          </form>
+        </div>
+      </div>
+      <div
+        id="map"
+        class="map-container col col-md-6"
+        style="height: 450px"
+      ></div>
+    </div>
+
+    <script src="/jquery.min.js"></script>
+    <script src="/toastr.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
+    <script>
+      // Initialize Mapbox map
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiaG9uZGEwNiIsImEiOiJjbHVudXMzZ2sxaXhjMnFsaW9sM3lpeGpuIn0.uGP_UnWdUQtnJ4uVmg03MQ";
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [-3.703583, 40.416705], // Default center for Madrid
+        zoom: 10,
+      });
+
+      // Create a marker instance
+      var marker = new mapboxgl.Marker();
+      var address = "";
+
+      // Add click event listener to the map
+      map.on("click", function (e) {
+        // Get the coordinates of the point where the user clicked
+        var coordinates = e.lngLat;
+
+        // Update the marker's position to the clicked location
+        marker.setLngLat(coordinates).addTo(map);
+
+        // Display coordinates in the console (you can save them to a variable or send them to a server)
+        console.log("Clicked coordinates:", JSON.stringify(coordinates));
+        address = JSON.stringify(coordinates);
+      });
+
+      document
+        .getElementById("botonPerfil")
+        .addEventListener("click", function () {
+          window.location.href = "/propietario/perfil";
+        });
+
+      document
+        .getElementById("botonMis")
+        .addEventListener("click", function () {
+          sessionStorage.setItem("estId", "");
+          window.location.href = "/propietario/establecimientos";
+        });
+
+      document
+        .getElementById("botonInicio")
+        .addEventListener("click", function () {
+          window.location.href = "/propietario";
+        });
+
+      document
+        .getElementById("cerrarBoton")
+        .addEventListener("click", function () {
+          window.location.href = "/";
+        });
+
+      $(document).ready(function () {
+        $.get(
+          "http://localhost:8080/api/establishment/" +
+            sessionStorage.getItem("estId"),
+          function (data) {
+            $("#name").val(data.title);
+            $("#description").val(data.description);
+            $("#open").val(data.open);
+            $("#close").val(data.close);
+            document.getElementById("avatar-preview").src =
+              "/uploads/" + data.image;
+
+            address = data.address;
+            let parts = data.address.split(",");
+            // Access lng and lat values
+            var lng = parts[0].split(":")[1];
+            var lat = parts[1].split(":")[1].split("}")[0];
+            let lngLat = new mapboxgl.LngLat(lng, lat);
+            marker.setLngLat(lngLat).addTo(map);
+          }
+        );
+      });
+
+      document
+        .getElementById("editestablishment")
+        .addEventListener("submit", function () {
+          event.preventDefault();
+
+          if (address == "") toastr.warning("Select position in the map");
+          else {
+            let transData = {
+              title: $("#name").val(),
+              description: $("#description").val(),
+              open: $("#open").val(),
+              close: $("#close").val(),
+              address: JSON.stringify(address),
+            };
+
+            $.ajax({
+              url:
+                "http://localhost:8080/api/establishment/" +
+                sessionStorage.getItem("estId"), // Specify the URL to handle the file upload
+              type: "PUT",
+              contentType: "application/json",
+              data: JSON.stringify(transData),
+              success: function (res) {
+                console.log("res", res);
+                toastr.success("Update successfully");
+              },
+              error: function (xhr, status, error) {
+                console.error("File upload failed:", error);
+              },
+            });
+          }
+        });
+    </script>
+  </body>
+</html>

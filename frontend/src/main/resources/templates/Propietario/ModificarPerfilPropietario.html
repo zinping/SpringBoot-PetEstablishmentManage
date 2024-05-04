@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modificar Perfil</title>
+    <link rel="stylesheet" href="/ModificarPerfil.css" />
+    <link href="/bootstrap.min.css" rel="stylesheet" />
+    <link href="/toastr.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="navbar-top">
+      <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo" />
+    </div>
+
+    <div class="sidebar">
+      <button id="botonInicio" class="sidebar-btn">Inicio</button>
+      <button class="sidebar-btn">Mi perfil</button>
+      <button id="botonMis" class="sidebar-btn">Mis establecimientos</button>
+      <button id="cerrarBoton" class="sidebar-btn">Cerrar sesión</button>
+    </div>
+
+    <div class="main-content">
+      <h2 class="modify-profile-title">MODIFICAR PERFIL</h2>
+      <div class="profile-container container-fluid">
+        <div class="form-section left">
+          <label for="name">Nombre</label>
+          <input class="form-control" type="text" id="name" />
+
+          <label for="email">Email</label>
+          <input class="form-control" type="email" id="email" />
+
+          <label for="birthday">Fecha de nacimiento</label>
+          <input class="form-control" type="date" id="birthday" />
+        </div>
+        <div class="form-section right">
+          <label for="surname">Apellido</label>
+          <input class="form-control" type="text" id="surname" />
+
+          <label for="password">Contraseña</label>
+          <input class="form-control" type="password" id="password" />
+
+          <button
+            class="btn btn-outline-primary mt-4"
+            onclick="updateProfile()"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/jquery.min.js"></script>
+    <script src="/toastr.min.js"></script>
+    <script>
+      document
+        .getElementById("botonInicio")
+        .addEventListener("click", function () {
+          window.location.href = "/propietario";
+        });
+
+      document
+        .getElementById("botonMis")
+        .addEventListener("click", function () {
+          sessionStorage.setItem("estId", "");
+          window.location.href = "/propietario/establecimientos";
+        });
+
+      document
+        .getElementById("cerrarBoton")
+        .addEventListener("click", function () {
+          window.location.href = "/";
+        });
+
+      $(document).ready(function () {
+        $.get(
+          "http://localhost:8080/api/user/" + sessionStorage.getItem("userId"),
+          function (data) {
+            $("#name").val(data.name);
+            $("#surname").val(data.surname);
+            $("#email").val(data.email);
+            $("#password").val(data.password);
+            $("#birthday").val(data.birthday);
+          }
+        );
+      });
+
+      function updateProfile() {
+        if ($("#name").val() == "") toastr.warning("input name");
+        else if ($("#surname").val() == "") toastr.warning("input surname");
+        else if ($("#email").val() == "") toastr.warning("input email");
+        else if ($("#password").val() == "") toastr.warning("input password");
+        else if ($("#birthday").val() == "") toastr.warning("input birthday");
+        else {
+          let tranData = {
+            name: $("#name").val(),
+            surname: $("#surname").val(),
+            email: $("#email").val(),
+            password: $("#password").val(),
+            birthday: $("#birthday").val(),
+            memberType:
+              sessionStorage.getItem("member") == "client" ? false : true,
+          };
+          $.ajax({
+            url:
+              "http://localhost:8080/api/user/" +
+              sessionStorage.getItem("userId"), // URL of your Spring Boot endpoint
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(tranData), // Data to send to the backend
+            success: function (response) {
+              toastr.info("Update successfully");
+            },
+            error: function (xhr, status, error) {
+              toastr.error("Error sending data:", error);
+            },
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

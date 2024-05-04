@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mascotmercio</title>
+    <link rel="stylesheet" href="/VistaPrincipalCliente.css" />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link href="/bootstrap.min.css" rel="stylesheet" />
+    <link href="/toastr.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="navbar-top">
+      <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo" />
+    </div>
+
+    <div class="sidebar">
+      <button class="sidebar-btn">Inicio</button>
+      <button id="botonPerfil" class="sidebar-btn">Mi perfil</button>
+      <button id="cerrarBoton" class="sidebar-btn">Cerrar sesión</button>
+    </div>
+
+    <div class="main-content">
+      <div class="search-bar row">
+        ¡Busca tu establecimiento más cercano!&nbsp;&nbsp;&nbsp;
+        <input
+          type="text"
+          placeholder="Establecimiento"
+          id="filter"
+          class="col-md-4"
+        />
+        &nbsp;&nbsp;&nbsp;
+        <button class="btn btn-outline-dark col-md-2" onclick="searchNearest()">
+          Buscar
+        </button>
+      </div>
+    </div>
+    <div id="map" class="map-container"></div>
+    <script src="/jquery.min.js"></script>
+    <script src="/toastr.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiaG9uZGEwNiIsImEiOiJjbHVudXMzZ2sxaXhjMnFsaW9sM3lpeGpuIn0.uGP_UnWdUQtnJ4uVmg03MQ";
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [-3.70379, 40.416775],
+        zoom: 6,
+      });
+
+      document
+        .getElementById("botonPerfil")
+        .addEventListener("click", function () {
+          window.location.href = "/cliente/perfil";
+        });
+
+      document
+        .getElementById("cerrarBoton")
+        .addEventListener("click", function () {
+          window.location.href = "/";
+        });
+
+      function searchNearest() {
+        let filter = $("#filter").val();
+        $.get(
+          "http://localhost:8080/api/establishments/" + filter,
+          function (data) {
+            var address = data.address;
+            let parts = address.split(",");
+            // Access lng and lat values
+            var lng = parts[0].split(":")[1];
+            var lat = parts[1].split(":")[1].split("}")[0];
+            // let lngLat = new mapboxgl.LngLat(lng, lat);
+            map = new mapboxgl.Map({
+              container: "map",
+              style: "mapbox://styles/mapbox/streets-v11",
+              center: [lng, lat],
+              zoom: 13,
+            });
+
+            var lngLat = [lng, lat];
+
+            // Create a marker
+            var marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
+
+            // Add click event listener to the marker
+            marker.getElement().addEventListener("click", function () {
+              // Create a popup
+              var popup = new mapboxgl.Popup()
+                .setLngLat([lng, lat])
+                .setHTML(
+                  "<h3>" + data.title + "</h3><p>" + data.description + "</p>"
+                )
+                .addTo(map);
+            });
+          }
+        );
+      }
+    </script>
+  </body>
+</html>

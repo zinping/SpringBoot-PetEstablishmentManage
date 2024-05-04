@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mascotmercio</title>
+    <link rel="stylesheet" href="/AñadirEstablecimiento.css" />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link href="/bootstrap.min.css" rel="stylesheet" />
+    <link href="/toastr.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="navbar-top">
+      <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo" />
+    </div>
+
+    <div class="sidebar">
+      <button id="botonInicio" class="sidebar-btn">Inicio</button>
+      <button id="botonPerfil" class="sidebar-btn">Mi perfil</button>
+      <button id="botonMis" class="sidebar-btn">Mis establecimientos</button>
+      <button id="cerrarBoton" class="sidebar-btn">Cerrar sesión</button>
+    </div>
+
+    <div class="main-content row">
+      <div class="col col-md-6">
+        <div class="header-box">
+          <h1>AÑADIR ESTABLECIMIENTO</h1>
+        </div>
+        <div class="form-box">
+          <form
+            id="addestablishment"
+            action="/ruta-para-procesar-formulario"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <div class="form-group">
+              <label for="name">Nombre del establecimiento:</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="description">Descripción del establecimiento:</label>
+              <textarea id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="open">Horario apertura:</label>
+              <input type="time" id="open" name="open" required />
+            </div>
+            <div class="form-group">
+              <label for="close">Horario cierre:</label>
+              <input type="time" id="close" name="close" required />
+            </div>
+            <div class="form-group">
+              <label for="image">Imagen:</label>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+                onchange="previewAvatar(event)"
+              />
+
+              <!-- Image tag to display the selected image -->
+              <img id="avatar-preview" src="#" alt="Avatar Preview" />
+            </div>
+            <button type="submit" class="btn btn-outline-success">
+              AÑADIR ESTABLECIMIENTO
+            </button>
+          </form>
+        </div>
+      </div>
+      <div id="map" class="map-container col col-md-6"></div>
+    </div>
+
+    <script src="/jquery.min.js"></script>
+    <script src="/toastr.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
+    <script>
+      // Initialize Mapbox map
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiaG9uZGEwNiIsImEiOiJjbHVudXMzZ2sxaXhjMnFsaW9sM3lpeGpuIn0.uGP_UnWdUQtnJ4uVmg03MQ";
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [-3.703583, 40.416705], // Default center for Madrid
+        zoom: 10,
+      });
+
+      function previewAvatar(event) {
+        // Get the selected file
+        var file = event.target.files[0];
+
+        // Check if a file was selected
+        if (file) {
+          // Create a FileReader object
+          var reader = new FileReader();
+
+          // Set up the FileReader onload event handler
+          reader.onload = function (e) {
+            // Set the source of the image to the data URL representing the selected file
+            document.getElementById("avatar-preview").src = e.target.result;
+          };
+
+          // Read the selected file as a data URL
+          reader.readAsDataURL(file);
+        }
+      }
+
+      // Create a marker instance
+      var marker = new mapboxgl.Marker();
+      var address = "";
+
+      // Add click event listener to the map
+      map.on("click", function (e) {
+        // Get the coordinates of the point where the user clicked
+        var coordinates = e.lngLat;
+
+        // Update the marker's position to the clicked location
+        marker.setLngLat(coordinates).addTo(map);
+
+        // Display coordinates in the console (you can save them to a variable or send them to a server)
+        console.log("Clicked coordinates:", JSON.stringify(coordinates));
+        address = JSON.stringify(coordinates);
+      });
+
+      document
+        .getElementById("botonPerfil")
+        .addEventListener("click", function () {
+          window.location.href = "/propietario/perfil";
+        });
+
+      document
+        .getElementById("botonMis")
+        .addEventListener("click", function () {
+          sessionStorage.setItem("estId", "");
+          window.location.href = "/propietario/establecimientos";
+        });
+
+      document
+        .getElementById("botonInicio")
+        .addEventListener("click", function () {
+          window.location.href = "/propietario";
+        });
+
+      document
+        .getElementById("cerrarBoton")
+        .addEventListener("click", function () {
+          window.location.href = "/";
+        });
+
+      document
+        .getElementById("addestablishment")
+        .addEventListener("submit", function () {
+          event.preventDefault();
+
+          if (address == "") toastr.warning("Select position in the map");
+          else {
+            var fileInput = document.getElementById("image");
+            var file = fileInput.files[0];
+
+            var formData = new FormData();
+            formData.append("file", file);
+
+            $.ajax({
+              url: "http://localhost:8080/upload", // Specify the URL to handle the file upload
+              type: "POST",
+              data: formData,
+              processData: false, // Prevent jQuery from automatically processing the data
+              contentType: false, // Prevent jQuery from setting the Content-Type header
+              success: function (response) {
+                let transData = {
+                  user: sessionStorage.getItem("userId"),
+                  title: $("#name").val(),
+                  description: $("#description").val(),
+                  open: $("#open").val(),
+                  close: $("#close").val(),
+                  image: response,
+                  address: JSON.stringify(address),
+                };
+
+                $.ajax({
+                  url: "http://localhost:8080/api/establishment", // Specify the URL to handle the file upload
+                  type: "POST",
+                  contentType: "application/json",
+                  data: JSON.stringify(transData),
+                  success: function (res) {
+                    toastr.success("Register successfully");
+                  },
+                  error: function (xhr, status, error) {
+                    console.error("File upload failed:", error);
+                  },
+                });
+              },
+              error: function (xhr, status, error) {
+                console.error("File upload failed:", error);
+              },
+            });
+          }
+        });
+    </script>
+  </body>
+</html>

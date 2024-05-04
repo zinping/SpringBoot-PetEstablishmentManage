@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mascotmercio - Registro de Usuario</title>
+    <link rel="stylesheet" href="/RegistroCliente.css" />
+    <link href="/bootstrap.min.css" rel="stylesheet" />
+    <link href="/toastr.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="contenedor">
+      <h2>REGÍSTRESE</h2>
+      <form id="formularioRegistro" action="">
+        <div class="fila">
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Nombre"
+            required
+          />
+          <input
+            type="text"
+            id="surname"
+            name="surname"
+            placeholder="Apellidos"
+            required
+          />
+        </div>
+        <div class="fila">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Contraseña"
+            required
+          />
+        </div>
+        <div class="fila">
+          <input type="date" id="birthday" name="birthday" required />
+        </div>
+
+        <div class="fila">
+          <label>
+            <input
+              id="client"
+              type="radio"
+              name="memberType"
+              onclick="memberChecked(false)"
+              checked
+            />
+            CLIENTE
+          </label>
+          <label>
+            <input
+              id="owner"
+              type="radio"
+              name="memberType"
+              onclick="memberChecked(true)"
+            />
+            PROPIETARIO
+          </label>
+        </div>
+        <div class="fila condiciones">
+          <label>
+            <input onclick="agree()" type="checkbox" name="accept" required />
+            Acepto los términos y condiciones de uso
+          </label>
+        </div>
+        <div class="fila">
+          <button
+            type="submit"
+            id="botonRegistrarse"
+            class="btn btn-outline-primary"
+          >
+            Registrarse
+          </button>
+        </div>
+        <div class="fila text-center">
+          <a href="/" class="register-link text-center">
+            Página de inicio de sesión
+          </a>
+        </div>
+      </form>
+    </div>
+    <script src="/jquery.min.js"></script>
+    <script src="/toastr.min.js"></script>
+    <script>
+      var memberType = false;
+      var agreement = 0;
+
+      function memberChecked(member) {
+        memberType = member;
+      }
+
+      function agree() {
+        agreement = 1;
+      }
+
+      document
+        .getElementById("formularioRegistro")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Evita que el formulario se envíe automáticamente
+          let email = $("#email").val();
+          if ($("#name").val() == "") toastr.warning("input name");
+          else if ($("#surname").val() == "") toastr.warning("input surname");
+          else if (email == "") toastr.warning("input email");
+          else if ($("#password").val() == "") toastr.warning("input password");
+          else if ($("#birthday").val() == "") toastr.warning("input birthday");
+          else if (agreement == 0) toastr.warning("select agreement");
+          else {
+            let tranData = {
+              name: $("#name").val(),
+              surname: $("#surname").val(),
+              email,
+              password: $("#password").val(),
+              birthday: $("#birthday").val(),
+              memberType,
+            };
+            $.ajax({
+              url: "http://localhost:8080/api/user", // URL of your Spring Boot endpoint
+              type: "POST",
+              contentType: "application/json",
+              data: JSON.stringify(tranData), // Data to send to the backend
+              success: function (response) {
+                if (response == "EXIST") toastr.warning("The user exists");
+                else if (response == "REGISTER_SUCCESS") {
+                  toastr.success("Register successfully");
+                  window.location.href = "/";
+                }
+              },
+              error: function (xhr, status, error) {
+                toastr.error("Error sending data:", error);
+              },
+            });
+          }
+        });
+    </script>
+  </body>
+</html>

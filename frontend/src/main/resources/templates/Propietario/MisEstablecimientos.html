@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mascotecomercio</title>
+    <link rel="stylesheet" href="/MisEstablecimientos.css">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+    <link href="/bootstrap.min.css" rel="stylesheet" />
+    <link href="/toastr.min.css" rel="stylesheet" />
+    
+    
+</head>
+<body>
+
+    <div class="navbar-top">
+    <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo">
+   
+    </div>
+
+    <div class="sidebar">
+        <button id="botonInicio" class="sidebar-btn">Inicio</button>
+        <button id="botonPerfil" class="sidebar-btn">Mi perfil</button>
+        <button class="sidebar-btn">Mis establecimientos</button>
+        <button id="cerrarBoton" class="sidebar-btn">Cerrar sesión</button>
+    </div>
+
+<div class="content-wrapper">
+    <div class="main-content">
+        <div class="establishments-box">
+            <h2 class="section-title">MIS ESTABLECIMIENTOS</h2>
+            <button id="anadirEstablecimiento" class="add-establishment-btn">Añadir nuevo establecimiento</button>
+            <div class="establishment-list" id="establishments">
+            </div>
+            
+        </div>
+        
+    </div>
+    <!-- <div id='map' class='map-container'></div> -->
+    <script src="/jquery.min.js"></script>
+    <script src="/toastr.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <script>
+    document.getElementById('botonInicio').addEventListener('click', function() {
+            window.location.href = '/propietario';
+        });
+
+    document.getElementById('botonPerfil').addEventListener('click', function() {
+        window.location.href = '/propietario/perfil';
+    });
+    document.getElementById('cerrarBoton').addEventListener('click', function() {
+        window.location.href = '/';
+    });
+    document.getElementById('anadirEstablecimiento').addEventListener('click', function() {
+        window.location.href = '/propietario/establecimientos/añadirestablecimiento';
+    }); 
+
+    $(document).ready(function () {
+        $.get(
+          "http://localhost:8080/api/applied_establishments/" + sessionStorage.getItem("userId"),
+          function (data) {
+            let estDatas = '';
+            data.forEach(element => {
+                estDatas += '<div class="establishment-item"><span class="establishment-name">🏠' + element.title + '</span><button class="establishment-edit" onclick="editEst(' + element.id + ')">✏️</button><button class="establishment-delete"  onclick="deleteEst(' + element.id + ')">🗑️</button></div>'
+            });
+
+            $('#establishments').html(estDatas);
+          }
+        );
+      });
+
+      function editEst(estId) {
+        sessionStorage.setItem('estId', estId);
+        window.location.href = '/propietario/establecimientos/edit';
+      }
+
+      function deleteEst(estId) {
+        $.ajax({
+              url:
+                "http://localhost:8080/api/establishment/" + estId, // Specify the URL to handle the file upload
+              type: "DELETE",
+              success: function (res) {
+                if(res == "DELETE_SUCCESS"){
+                    toastr.success("Delete successfully");
+                    window.location.href = "/propietario/establecimientos";
+                }
+                
+              },
+              error: function (xhr, status, error) {
+                console.error("File upload failed:", error);
+              },
+            });
+      }
+
+    </script>
+   
+       
+    
+ 
+</body>
+</html>

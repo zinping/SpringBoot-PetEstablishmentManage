@@ -1,0 +1,97 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url("/fotos/mascota-hombre-perro-pata.png") no-repeat center
+    center fixed;
+  background-size: cover; /* Cubre toda el área visible sin perder proporciones */
+}
+
+.contenedor {
+  background-color: #8bc34abb;
+  width: 50%;
+  margin: 50px auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgb(255, 255, 255);
+  border-radius: 8px;
+}
+
+h2 {
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.fila {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.fila label {
+  color: white;
+  font-weight: bold;
+  display: block;
+  margin: 0 10px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"] {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #4caf4f59;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.register-link {
+  color: #6c757d;
+  text-decoration: none;
+  margin-left: 15vw;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.condiciones {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .fila {
+    flex-direction: column;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="date"] {
+    width: 100%;
+  }
+}

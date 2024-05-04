@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mascotmercio</title>
+    <link rel="stylesheet" href="/VistaPrincipalPropietario.css" />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link href="/bootstrap.min.css" rel="stylesheet" />
+    <link href="/toastr.min.css" rel="stylesheet" />
+    <style>
+      .marker {
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+        animation: bounce 1s infinite alternate;
+      }
+
+      @keyframes bounce {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-20px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar-top">
+      <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo" />
+    </div>
+
+    <div class="sidebar">
+      <button class="sidebar-btn">Inicio</button>
+      <button id="botonPerfil" class="sidebar-btn">Mi perfil</button>
+      <button id="botonMis" class="sidebar-btn">Mis establecimientos</button>
+      <button id="cerrarBoton" class="sidebar-btn">Cerrar sesión</button>
+    </div>
+
+    <div class="main-content">
+      <div class="search-bar row">
+        ¡Busca tu establecimiento más cercano!&nbsp;&nbsp;&nbsp;
+        <input
+          type="text"
+          placeholder="Establecimiento"
+          id="filter"
+          class="col-md-4"
+        />
+        &nbsp;&nbsp;&nbsp;
+        <button class="btn btn-outline-dark col-md-2" onclick="searchNearest()">
+          Buscar
+        </button>
+      </div>
+    </div>
+    <div id="map" class="map-container"></div>
+    <script src="/jquery.min.js"></script>
+    <script src="/toastr.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiaG9uZGEwNiIsImEiOiJjbHVudXMzZ2sxaXhjMnFsaW9sM3lpeGpuIn0.uGP_UnWdUQtnJ4uVmg03MQ";
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [-3.70379, 40.416775],
+        zoom: 6,
+      });
+
+      document
+        .getElementById("botonPerfil")
+        .addEventListener("click", function () {
+          window.location.href = "/propietario/perfil";
+        });
+
+      document
+        .getElementById("botonMis")
+        .addEventListener("click", function () {
+          sessionStorage.setItem("estId", "");
+          window.location.href = "/propietario/establecimientos";
+        });
+      document
+        .getElementById("cerrarBoton")
+        .addEventListener("click", function () {
+          window.location.href = "/";
+        });
+
+      function searchNearest() {
+        let filter = $("#filter").val();
+        $.get(
+          "http://localhost:8080/api/establishments/" + filter,
+          function (data) {
+            var address = data.address;
+            let parts = address.split(",");
+            // Access lng and lat values
+            var lng = parts[0].split(":")[1];
+            var lat = parts[1].split(":")[1].split("}")[0];
+            let lngLat = new mapboxgl.LngLat(lng, lat);
+            var map = new mapboxgl.Map({
+              container: "map",
+              style: "mapbox://styles/mapbox/streets-v11",
+              center: [lng, lat], // Default center for Madrid
+              zoom: 13,
+            });
+
+            map.easeTo({
+              center: [lng, lat], // New center coordinates
+              zoom: 13, // New zoom level
+              duration: 2000, // Animation duration in milliseconds
+              easing: function (t) {
+                return t;
+              },
+            });
+
+            // marker.setLngLat(lngLat).addTo(map);
+
+            var marker = document.createElement("div");
+            marker.className = "marker";
+            // Create a marker
+            new mapboxgl.Marker().setLngLat(lngLat).addTo(map);
+
+            // Create a popup
+            var popup = new mapboxgl.Popup().setHTML(
+              "<h3>" + data.title + "</h3><p>" + data.description + "</p> "
+            );
+          }
+        );
+      }
+    </script>
+  </body>
+</html>

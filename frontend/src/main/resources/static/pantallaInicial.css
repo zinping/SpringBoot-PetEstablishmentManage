@@ -1,0 +1,187 @@
+body, html {
+          height: 100%;
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background: url('/fotos/FotoInicio.png') no-repeat center center fixed; 
+          background-size: cover; 
+      }
+      
+
+
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #D4E6A5; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 110%;
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            background-color: #A7D489; 
+            padding: 20px;
+            box-shadow: 0 4px 8px rgb(255, 255, 255);
+            border-radius: 10px;
+        }
+        .text-section {
+            flex: 1;
+            padding: 20px;
+            color: #333;
+            background-color: #8EC641; 
+            margin-right: 0px;
+            border-radius: 70px;
+        }
+        .login-section {
+            flex: 1;
+            padding: 20px;
+            background-color: #A7D489; 
+            border-radius: 10px;
+        }
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #333;
+            line-height: 1.6;
+        }
+        input[type=email], input[type=password] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box; 
+        }
+        .btn {
+            width: calc(100% - 20px);
+            padding: 10px;
+            background-color: #6c757d;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #565e64;
+        }
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .register-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .register-link {
+            color: #6c757d;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .register-link:hover {
+            text-decoration: underline;
+        }
+   
+        .imagenMujerPerro {
+          max-width: 100%; 
+          height: auto; 
+          display: block;
+          margin: 40px auto; 
+      }
+      
+      .imagenFotoDueñoMascota {
+        max-width: 100%; 
+        height: auto; 
+        display: block; 
+        margin: 40px auto; 
+    }
+    
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .registro-container {
+    background-color: #8DC73F;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 50px auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  .login-logo {
+    display: block;
+    max-width: 260px; 
+    height: auto; 
+    margin: 0 auto 20px; 
+}
+
+  .registro-header {
+    background-color: #6CA22C;
+    color: white;
+    padding: 10px 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin: -20px -20px 20px -20px;
+    text-align: center;
+    font-size: 24px;
+  }
+  
+  .form-field {
+    margin-bottom: 15px;
+  }
+  
+  .form-field input[type="text"],
+  .form-field input[type="email"],
+  .form-field input[type="password"],
+  .form-field input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+  }
+  
+  .radio-buttons {
+    margin: 20px 0;
+  }
+  
+  .radio-buttons label {
+    margin-right: 10px;
+  }
+  
+  .radio-buttons input[type="radio"] {
+    margin-right: 5px;
+  }
+  
+  .checkbox-terms {
+    margin-bottom: 20px;
+  }
+  
+  .checkbox-terms input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  .btn-registrarse {
+    width: 100%;
+    padding: 10px;
+    background-color: #6CA22C;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .btn-registrarse:hover {
+    background-color: #5e8c24;
+  }
+  

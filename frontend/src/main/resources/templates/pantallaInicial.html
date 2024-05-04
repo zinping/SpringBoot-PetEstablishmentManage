@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/pantallaInicial.css" />
+    <link href="/bootstrap.min.css" rel="stylesheet" />
+    <link href="/toastr.min.css" rel="stylesheet" />
+    <title>Mascotmercio</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="text-section">
+        <h2>¡Descubre los mejores lugares para disfrutar con tu mascota!</h2>
+
+        <img
+          src="/fotos/MujerPerro.png"
+          alt="Mujer con perro"
+          class="imagenMujerPerro"
+        />
+      </div>
+      <div class="login-section">
+        <div class="login-container">
+          <img
+            src="/fotos/logo_mascotmercio.png"
+            alt="Logo"
+            class="login-logo"
+          />
+          <h2>Login</h2>
+          <form id="formularioSesion" action="">
+            <input type="email" id="email" placeholder="Email" required />
+            <input
+              type="password"
+              id="password"
+              placeholder="Contraseña"
+              required
+            />
+            <button type="submit" class="btn btn-outline-success">
+              Iniciar sesión
+            </button>
+          </form>
+          <div class="register-links">
+            <a href="/registro" class="register-link"
+              >Registrarse en Mascotmercio</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="text-section" style="margin-left: 10px">
+        <h2>¡Únete a la comunidad de Mascotmercio!</h2>
+        <h2></h2>
+        <img
+          src="/fotos/FotoDueñoMascota.png"
+          alt="Dueño feliz con su mascota"
+          class="imagenFotoDueñoMascota"
+        />
+      </div>
+    </div>
+    <script src="/jquery.min.js"></script>
+    <script src="/toastr.min.js"></script>
+    <script>
+      document
+        .getElementById("formularioSesion")
+        .addEventListener("submit", function () {
+          event.preventDefault(); // Evita que el formulario se envíe automáticamente
+          let email = $("#email").val();
+          if (email == "") toastr.warning("input email");
+          else if ($("#password").val() == "") toastr.warning("input password");
+          else {
+            let tranData = {
+              email,
+              password: $("#password").val(),
+            };
+            $.ajax({
+              url: "http://localhost:8080/api/user/login", // URL of your Spring Boot endpoint
+              type: "POST",
+              contentType: "application/x-www-form-urlencoded",
+              data: tranData, // Data to send to the backend
+              success: function (response) {
+                if (response == "NOT_EXIST")
+                  toastr.error("The user doen't exist");
+                else if (response == "PASSWORD_INCORRECT")
+                  toastr.warning("Password is incorrect");
+                else if (response.includes("LOGIN_SUCCESS")) {
+                  toastr.success("Login successfully");
+                  let member = response.split("&")[1];
+                  let userId = response.split("&")[2];
+                  sessionStorage.setItem("member", member);
+                  sessionStorage.setItem("userId", userId);
+                  if (member == "client") window.location.href = "/cliente";
+                  else window.location.href = "/propietario";
+                }
+              },
+              error: function (xhr, status, error) {
+                toastr.error("Error sending data:", error);
+              },
+            });
+          }
+        });
+    </script>
+  </body>
+</html>
