@@ -13,10 +13,11 @@
       <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo" />
     </div>
 
-    <div class="sidebar">
-      <button id="botonInicio" class="sidebar-btn">Inicio</button>
-      <button class="sidebar-btn">Mi perfil</button>
-      <button id="cerrarBoton" class="sidebar-btn">Cerrar sesión</button>
+    <div id="mySidenav" class="sidenav">
+      <a href="/cliente" id="about">Inicio</a>
+      <a href="/cliente/perfil" id="blog">Mi perfil</a>
+      <a href="/" id="projects">Cerrar sesión</a>
+      <!-- <a href="#" id="contact">Contact</a> -->
     </div>
 
     <div class="main-content">
@@ -52,18 +53,6 @@
     <script src="/jquery.min.js"></script>
     <script src="/toastr.min.js"></script>
     <script>
-      document
-        .getElementById("botonInicio")
-        .addEventListener("click", function () {
-          window.location.href = "/cliente";
-        });
-
-      document
-        .getElementById("cerrarBoton")
-        .addEventListener("click", function () {
-          window.location.href = "/";
-        });
-
       $(document).ready(function () {
         $.get(
           "http://localhost:8080/api/user/" + sessionStorage.getItem("userId"),

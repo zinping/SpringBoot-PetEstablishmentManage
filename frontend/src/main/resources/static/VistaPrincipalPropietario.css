@@ -70,7 +70,7 @@ html {
   padding-left: 200px;
   padding-right: 20px;
   padding-bottom: 5px;
-  margin-left: 210px;
+  margin-left: 100px;
   z-index: 500;
   width: 80%;
 }
@@ -96,4 +96,41 @@ html {
   margin-left: 410px;
   margin-right: 150px;
   box-shadow: 0 4px 8px rgb(17, 17, 17);
+}
+
+#mySidenav a {
+  margin-top: 150px;
+  position: absolute;
+  left: -230px;
+  transition: 0.3s;
+  padding: 15px;
+  width: 250px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 0 5px 5px 0;
+}
+
+#mySidenav a:hover {
+  left: 0;
+}
+
+#about {
+  top: 20px;
+  background-color: #04aa6d;
+}
+
+#blog {
+  top: 80px;
+  background-color: #2196f3;
+}
+
+#projects {
+  top: 140px;
+  background-color: #555;
+}
+
+#contact {
+  top: 200px;
+  background-color: #f44336;
 }

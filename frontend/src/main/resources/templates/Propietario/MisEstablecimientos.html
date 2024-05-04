@@ -18,11 +18,13 @@
    
     </div>
 
-    <div class="sidebar">
-        <button id="botonInicio" class="sidebar-btn">Inicio</button>
-        <button id="botonPerfil" class="sidebar-btn">Mi perfil</button>
-        <button class="sidebar-btn">Mis establecimientos</button>
-        <button id="cerrarBoton" class="sidebar-btn">Cerrar sesión</button>
+    <div id="mySidenav" class="sidenav">
+      <a href="/propietario" id="about">Inicio</a>
+      <a href="/propietario/perfil" id="blog">Mi perfil</a>
+      <a href="/propietario/establecimientos" id="projects"
+        >Mis establecimientos</a
+      >
+      <a href="/" id="contact">Cerrar sesión</a>
     </div>
 
 <div class="content-wrapper">
@@ -41,16 +43,7 @@
     <script src="/toastr.min.js"></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
     <script>
-    document.getElementById('botonInicio').addEventListener('click', function() {
-            window.location.href = '/propietario';
-        });
 
-    document.getElementById('botonPerfil').addEventListener('click', function() {
-        window.location.href = '/propietario/perfil';
-    });
-    document.getElementById('cerrarBoton').addEventListener('click', function() {
-        window.location.href = '/';
-    });
     document.getElementById('anadirEstablecimiento').addEventListener('click', function() {
         window.location.href = '/propietario/establecimientos/añadirestablecimiento';
     }); 

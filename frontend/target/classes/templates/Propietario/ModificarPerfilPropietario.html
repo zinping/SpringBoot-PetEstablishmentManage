@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modificar Perfil</title>
-    <link rel="stylesheet" href="/ModificarPerfil.css" />
+    <link rel="stylesheet" href="/ModificarPerfilPropietario.css" />
     <link href="/bootstrap.min.css" rel="stylesheet" />
     <link href="/toastr.min.css" rel="stylesheet" />
   </head>
@@ -13,11 +13,13 @@
       <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo" />
     </div>
 
-    <div class="sidebar">
-      <button id="botonInicio" class="sidebar-btn">Inicio</button>
-      <button class="sidebar-btn">Mi perfil</button>
-      <button id="botonMis" class="sidebar-btn">Mis establecimientos</button>
-      <button id="cerrarBoton" class="sidebar-btn">Cerrar sesión</button>
+    <div id="mySidenav" class="sidenav">
+      <a href="/propietario" id="about">Inicio</a>
+      <a href="/propietario/perfil" id="blog">Mi perfil</a>
+      <a href="/propietario/establecimientos" id="projects"
+        >Mis establecimientos</a
+      >
+      <a href="/" id="contact">Cerrar sesión</a>
     </div>
 
     <div class="main-content">
@@ -53,25 +55,6 @@
     <script src="/jquery.min.js"></script>
     <script src="/toastr.min.js"></script>
     <script>
-      document
-        .getElementById("botonInicio")
-        .addEventListener("click", function () {
-          window.location.href = "/propietario";
-        });
-
-      document
-        .getElementById("botonMis")
-        .addEventListener("click", function () {
-          sessionStorage.setItem("estId", "");
-          window.location.href = "/propietario/establecimientos";
-        });
-
-      document
-        .getElementById("cerrarBoton")
-        .addEventListener("click", function () {
-          window.location.href = "/";
-        });
-
       $(document).ready(function () {
         $.get(
           "http://localhost:8080/api/user/" + sessionStorage.getItem("userId"),

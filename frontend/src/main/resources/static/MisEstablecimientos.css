@@ -69,9 +69,9 @@ html {
   padding-left: 0px;
   padding-right: 0px;
   padding-bottom: 5px;
-  margin-left: 210px;
+  margin-left: 120px;
   z-index: 500;
-  width: 80%;
+  width: 90%;
 }
 
 .search-bar {
@@ -184,4 +184,41 @@ html {
 .map-container {
   width: 40%;
   height: 400px;
+}
+
+#mySidenav a {
+  margin-top: 150px;
+  position: absolute;
+  left: -230px;
+  transition: 0.3s;
+  padding: 15px;
+  width: 250px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 0 5px 5px 0;
+}
+
+#mySidenav a:hover {
+  left: 0;
+}
+
+#about {
+  top: 20px;
+  background-color: #04aa6d;
+}
+
+#blog {
+  top: 80px;
+  background-color: #2196f3;
+}
+
+#projects {
+  top: 140px;
+  background-color: #555;
+}
+
+#contact {
+  top: 200px;
+  background-color: #f44336;
 }

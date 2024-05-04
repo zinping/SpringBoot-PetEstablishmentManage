@@ -36,12 +36,20 @@
       <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo" />
     </div>
 
-    <div class="sidebar">
+    <div id="mySidenav" class="sidenav">
+      <a href="/propietario" id="about">Inicio</a>
+      <a href="/propietario/perfil" id="blog">Mi perfil</a>
+      <a href="/propietario/establecimientos" id="projects"
+        >Mis establecimientos</a
+      >
+      <a href="/" id="contact">Cerrar sesión</a>
+    </div>
+    <!-- <div class="sidebar">
       <button class="sidebar-btn">Inicio</button>
       <button id="botonPerfil" class="sidebar-btn">Mi perfil</button>
       <button id="botonMis" class="sidebar-btn">Mis establecimientos</button>
       <button id="cerrarBoton" class="sidebar-btn">Cerrar sesión</button>
-    </div>
+    </div> -->
 
     <div class="main-content">
       <div class="search-bar row">
@@ -71,24 +79,6 @@
         center: [-3.70379, 40.416775],
         zoom: 6,
       });
-
-      document
-        .getElementById("botonPerfil")
-        .addEventListener("click", function () {
-          window.location.href = "/propietario/perfil";
-        });
-
-      document
-        .getElementById("botonMis")
-        .addEventListener("click", function () {
-          sessionStorage.setItem("estId", "");
-          window.location.href = "/propietario/establecimientos";
-        });
-      document
-        .getElementById("cerrarBoton")
-        .addEventListener("click", function () {
-          window.location.href = "/";
-        });
 
       function searchNearest() {
         let filter = $("#filter").val();
