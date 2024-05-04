@@ -98,26 +98,15 @@
               zoom: 13,
             });
 
-            map.easeTo({
-              center: [lng, lat], // New center coordinates
-              zoom: 13, // New zoom level
-              duration: 2000, // Animation duration in milliseconds
-              easing: function (t) {
-                return t;
-              },
-            });
-
-            // marker.setLngLat(lngLat).addTo(map);
-
-            var marker = document.createElement("div");
-            marker.className = "marker";
             // Create a marker
-            new mapboxgl.Marker().setLngLat(lngLat).addTo(map);
+            var marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
 
             // Create a popup
-            var popup = new mapboxgl.Popup().setHTML(
-              "<h3>" + data.title + "</h3><p>" + data.description + "</p> "
+            var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+              "<h3>" + data.title + "</h3><p>" + data.description + "</p>"
             );
+
+            popup.setLngLat([lng, lat]).addTo(map);
           }
         );
       }

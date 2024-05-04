@@ -40,12 +40,12 @@ html {
   left: 0;
   right: 0;
   top: 0;
-  background-color: #456735;
+  background-color: #9cdb7e;
   color: white;
   padding: 6px 20px;
   text-align: center;
   z-index: 1000;
-  border: 3px solid #000000;
+  border: 1px solid #000000;
   box-sizing: border-box;
 }
 
@@ -155,7 +155,7 @@ html {
 }
 
 .map-container {
-  border: 3px solid #000000;
+  border: 1px solid #000000;
   box-sizing: border-box;
   box-shadow: 0 4px 8px rgb(17, 17, 17);
 }

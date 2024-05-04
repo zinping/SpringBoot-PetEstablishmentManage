@@ -40,12 +40,12 @@ html {
   left: 0;
   right: 0;
   top: 0;
-  background-color: #456735;
+  background-color: #a0dd84;
   color: white;
   padding: 6px 20px;
   text-align: center;
   z-index: 1000;
-  border: 3px solid #000000;
+  border: 1px solid #000000;
   box-sizing: border-box;
 }
 
@@ -82,7 +82,7 @@ html {
 .search-bar {
   background-color: #f0f0f0;
   padding: 13px;
-  border: 3px solid #000000;
+  border: 1px solid #000000;
   box-sizing: border-box;
   margin-bottom: 15px;
   box-shadow: 0 4px 8px rgb(17, 17, 17);
@@ -91,7 +91,7 @@ html {
 .map-container {
   width: 50%;
   height: 480px;
-  border: 3px solid #000000;
+  border: 1px solid #000000;
   box-sizing: border-box;
   margin-left: 410px;
   margin-right: 150px;

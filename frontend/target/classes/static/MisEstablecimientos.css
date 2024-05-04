@@ -40,12 +40,12 @@ html {
   left: 0;
   right: 0;
   top: 0;
-  background-color: #456735;
+  background-color: #a0e481;
   color: white;
   padding: 6px 20px;
   text-align: center;
   z-index: 1000;
-  border: 3px solid #000000;
+  border: 1px solid #000000;
   box-sizing: border-box;
 }
 
@@ -90,17 +90,17 @@ html {
   padding: 19px;
   flex-direction: column;
   box-shadow: 0 3px 8px rgb(17, 17, 17);
-  border: 3px solid #000000;
+  border: 1px solid #000000;
   box-sizing: border-box;
 }
 
 .section-title {
-  background-color: #6ca22c;
-  color: white;
+  background-color: #a4d667;
+  color: rgb(0, 0, 0);
   padding: 20px;
   margin: -20px -20px 0px -20px;
   text-align: center;
-  border: 2px solid #000000;
+  border: 1px solid #000000;
   box-sizing: border-box;
 }
 
@@ -145,7 +145,19 @@ html {
 }
 
 .add-establishment-btn {
-  background-color: #6ca22c;
+  background-color: #2ca27f;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.add-establishment-btn:hover {
+  background-color: #1a664f;
   color: white;
   padding: 15px 20px;
   border: none;

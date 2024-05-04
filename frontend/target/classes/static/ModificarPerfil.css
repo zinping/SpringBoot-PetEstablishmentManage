@@ -50,12 +50,12 @@ html {
   left: 0;
   right: 0;
   top: 0;
-  background-color: #456735;
+  background-color: #a3c792;
   color: white;
   padding: 6px 20px;
   text-align: center;
   z-index: 1000;
-  border: 3px solid #000000;
+  border: 1px solid #000000;
   box-sizing: border-box;
 }
 
@@ -139,7 +139,7 @@ button:hover {
   background-color: #5e8c24;
 }
 .modify-profile-title {
-  background-color: #456735;
+  background-color: #a6f382;
   padding: 20px;
   margin: 20px 0;
   text-align: center;
@@ -147,8 +147,8 @@ button:hover {
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 24px;
-  color: #ffffff;
-  border: 3px solid #000000;
+  color: #020202;
+  border: 1px solid #000000;
   box-sizing: border-box;
 }
 

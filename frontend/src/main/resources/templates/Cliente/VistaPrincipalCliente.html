@@ -6,9 +6,10 @@
     <title>Mascotmercio</title>
     <link rel="stylesheet" href="/VistaPrincipalCliente.css" />
     <link
-      href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css"
+      href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css"
       rel="stylesheet"
     />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
     <link href="/bootstrap.min.css" rel="stylesheet" />
     <link href="/toastr.min.css" rel="stylesheet" />
   </head>
@@ -42,7 +43,6 @@
     <div id="map" class="map-container"></div>
     <script src="/jquery.min.js"></script>
     <script src="/toastr.min.js"></script>
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
     <script>
       mapboxgl.accessToken =
         "pk.eyJ1IjoiaG9uZGEwNiIsImEiOiJjbHVudXMzZ2sxaXhjMnFsaW9sM3lpeGpuIn0.uGP_UnWdUQtnJ4uVmg03MQ";
@@ -50,7 +50,7 @@
         container: "map",
         style: "mapbox://styles/mapbox/streets-v11",
         center: [-3.70379, 40.416775],
-        zoom: 6,
+        zoom: 10,
       });
 
       function searchNearest() {
@@ -61,31 +61,19 @@
             var address = data.address;
             let parts = address.split(",");
             // Access lng and lat values
-            var lng = parts[0].split(":")[1];
-            var lat = parts[1].split(":")[1].split("}")[0];
-            // let lngLat = new mapboxgl.LngLat(lng, lat);
-            map = new mapboxgl.Map({
-              container: "map",
-              style: "mapbox://styles/mapbox/streets-v11",
-              center: [lng, lat],
-              zoom: 13,
-            });
-
+            var lng = parseFloat(parts[0].split(":")[1]);
+            var lat = parseFloat(parts[1].split(":")[1].split("}")[0]);
             var lngLat = [lng, lat];
 
             // Create a marker
             var marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
 
-            // Add click event listener to the marker
-            marker.getElement().addEventListener("click", function () {
-              // Create a popup
-              var popup = new mapboxgl.Popup()
-                .setLngLat([lng, lat])
-                .setHTML(
-                  "<h3>" + data.title + "</h3><p>" + data.description + "</p>"
-                )
-                .addTo(map);
-            });
+            // Create a popup
+            var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+              "<h3>" + data.title + "</h3><p>" + data.description + "</p>"
+            );
+
+            popup.setLngLat([lng, lat]).addTo(map);
           }
         );
       }
