@@ -18,12 +18,35 @@
       <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo" />
     </div>
 
-    <div id="mySidenav" class="sidenav">
+    <div class="my-side-bar">
+      <a href="/cliente" class="btn btn-outline-secondary side-a">Inicio</a
+      ><a href="/cliente/perfil" class="btn btn-outline-secondary side-a"
+        >Mi perfil</a
+      ><a href="/" class="btn btn-outline-secondary side-a">Cerrar sesión</a>
+    </div>
+    <style>
+      .my-side-bar {
+        width: 150px;
+        margin-top: 20vh;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+      }
+
+      .side-a {
+        width: 250px;
+        height: 27vh;
+        font-size: 30px !important;
+        line-height: 27vh !important;
+      }
+    </style>
+
+    <!-- <div id="mySidenav" class="sidenav">
       <a href="/cliente" id="about">Inicio</a>
       <a href="/cliente/perfil" id="blog">Mi perfil</a>
-      <a href="/" id="projects">Cerrar sesión</a>
-      <!-- <a href="#" id="contact">Contact</a> -->
-    </div>
+      <a href="/" id="projects">Cerrar sesión</a> -->
+    <!-- <a href="#" id="contact">Contact</a> -->
+    <!-- </div> -->
 
     <div class="main-content">
       <div class="search-bar row">

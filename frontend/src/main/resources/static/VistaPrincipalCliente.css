@@ -95,7 +95,7 @@ html {
   box-shadow: 0 4px 8px rgb(17, 17, 17);
 }
 
-#mySidenav a {
+#mySidenav {
   margin-top: 150px;
   position: absolute;
   left: -140px;
@@ -108,7 +108,7 @@ html {
   border-radius: 0 5px 5px 0;
 }
 
-#mySidenav a:hover {
+#mySidenav {
   left: 0;
 }
 

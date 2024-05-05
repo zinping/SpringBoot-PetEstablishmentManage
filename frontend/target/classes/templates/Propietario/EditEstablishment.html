@@ -17,14 +17,33 @@
       <img src="/fotos/logo_mascotmercio.png" alt="Logo" class="login-logo" />
     </div>
 
-    <div id="mySidenav" class="sidenav">
-      <a href="/propietario" id="about">Inicio</a>
-      <a href="/propietario/perfil" id="blog">Mi perfil</a>
-      <a href="/propietario/establecimientos" id="projects"
+    <div class="my-side-bar">
+      <a href="/propietario" class="btn btn-outline-secondary side-a">Inicio</a
+      ><a href="/propietario/perfil" class="btn btn-outline-secondary side-a"
+        >Mi perfil</a
+      ><a
+        href="/propietario/establecimientos"
+        class="btn btn-outline-secondary side-a"
         >Mis establecimientos</a
-      >
-      <a href="/" id="contact">Cerrar sesión</a>
+      ><a href="/" class="btn btn-outline-secondary side-a">Cerrar sesión</a>
     </div>
+    <style>
+      .my-side-bar {
+        width: 250px;
+        margin-top: 20vh;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        background-color: aliceblue;
+      }
+
+      .side-a {
+        width: 250px;
+        height: 20vh;
+        font-size: 22px !important;
+        line-height: 20vh !important;
+      }
+    </style>
 
     <div class="main-content row">
       <div class="col col-md-6">
